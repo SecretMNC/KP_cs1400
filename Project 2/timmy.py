@@ -64,8 +64,7 @@ def main():
         rng = random.randint(1, 100)
         if rng <= 95:                                # 95% chance a new shape gets drawn
             rand_placement()                         # Places turtle in random location
-            random_shape = random.choice(['circle', 'triangle', 'square'])    
-            print(random_shape)                      
+            random_shape = random.choice(['circle', 'triangle', 'square'])                         
             if random_shape == 'circle':             # Picks a random shape to draw
                 draw_circle()
                 circle_counter += 1
