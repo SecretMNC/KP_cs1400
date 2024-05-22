@@ -4,11 +4,14 @@ import sys
 
 def main():
 
+
     # Validating user input from terminal
     while True:
         try:
             if len(sys.argv) != 5:
-                raise Exception(print("Unexpected number of parameters given."))
+                raise Exception(print("""
+            Unexpected number of parameters given.
+            Format: python3 [scriptfile.py initial_pop growth_rate iterations output_file]"""))
             elif ".py" not in sys.argv[0]:
                 raise Exception(print("Please enter a valid .py file or check your path."))
             elif float(sys.argv[1]) < 0 or float(sys.argv[1]) > 1:
@@ -28,7 +31,6 @@ def main():
             print("Unexpected input. Please try again.")
             quit()
         
-
     # Assigning user's inputs to variables for readability
     initial_pop = float(sys.argv[1])
     growth_rate = float(sys.argv[2])
@@ -37,17 +39,23 @@ def main():
 
     # Making pop_update start at initial_pop so to not change original user input
     pop_update = initial_pop
+    data_list = []
 
     # Logistic Equation
     def log_equation(pop):
         return growth_rate * pop * (1 - pop)
 
+    for time in range(iterations + 1):
+        pop_update = log_equation(pop_update)
+        data_list.append([time, 0])
+        data_list[time][1] = pop_update
+    print(data_list)
     # Clear previous simulation if using same file name
     open(f'{output_file}', 'w')
 
     # Create .txt file, begin simulation, write data to file, file auto closes
     with open(f'{output_file}', 'a') as file:
-        for time_counter in range(iterations + 1):                      # Inclusive of max iteration number
+        for time_counter in range(iterations + 1):                      # Loop through 'time' until iterations is met
             try:
                 pop_update = log_equation(pop_update)                   # Pass through current pop %, then update
                 file.writelines(f"{time_counter}\t{pop_update:.3f}\n")  # Write the current iteration and new pop %
