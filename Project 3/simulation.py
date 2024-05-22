@@ -39,28 +39,25 @@ def main():
 
     # Making pop_update start at initial_pop so to not change original user input
     pop_update = initial_pop
-    data_list = []
+    data_list = [[0, initial_pop]]
 
     # Logistic Equation
     def log_equation(pop):
         return growth_rate * pop * (1 - pop)
 
-    for time in range(iterations + 1):
-        pop_update = log_equation(pop_update)
-        data_list.append([time, 0])
-        data_list[time][1] = pop_update
-    print(data_list)
-    # Clear previous simulation if using same file name
+    # Simulation runs here
+    for time in range(1, iterations + 1):       # Progressing through 'time' in the loop
+        pop_update = log_equation(pop_update)   # Run calculation, update pop% variable
+        data_list.append([time, 0])             # Add a new list element with current time, dummy 0
+        data_list[time][1] = pop_update         # Replace dummy 0 with the updated pop%
+
+    # Clear previous simulation data if using same file name
     open(f'{output_file}', 'w')
 
-    # Create .txt file, begin simulation, write data to file, file auto closes
+    # Create .txt file, write data to file, file auto closes
     with open(f'{output_file}', 'a') as file:
-        for time_counter in range(iterations + 1):                      # Loop through 'time' until iterations is met
-            try:
-                pop_update = log_equation(pop_update)                   # Pass through current pop %, then update
-                file.writelines(f"{time_counter}\t{pop_update:.3f}\n")  # Write the current iteration and new pop %
-            except ZeroDivisionError:
-                print("Divide by zero detected. Skipping interation.")  # Error handle, probably won't be needed
+        for row in range(len(data_list)):
+            file.writelines(f"{data_list[row][0]}\t{data_list[row][1]:.3f}\n")
 
     # print("Simulation complete! Check your file in the directory.")
 
