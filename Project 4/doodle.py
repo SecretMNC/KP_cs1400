@@ -3,7 +3,7 @@ import turtle
 
 def main():
 
-    t = turtle
+    tur = turtle
     # Get user input and validate
     while True:
         try:
@@ -30,42 +30,53 @@ def main():
     mod_2 = [0, 100, 200, 240, 50]
     mod_3 = [[100, 100, 75, 7.5, 25], [-100, 50, 100, 120, 25]]
 
-    # Draw circle of specified color and size
+    
     def draw_circle(color, size):
-        t.color(color)  # Param passes into color
-        t.begin_fill()  # Shape will be filled in with chosen color
-        t.circle(size) # Draws circle to length param
-        t.end_fill()    # Shape has been filled with the color
+        '''
+        Draw circle of specified color and size
+        '''
+        tur.color(color)  # Param passes into color
+        tur.begin_fill()  # Shape will be filled in with chosen color
+        tur.circle(size) # Draws circle to length param
+        tur.end_fill()    # Shape has been filled with the color
 
-    # Draw triangle of specified color and side length
+    
     def draw_triangle(color, leng):
-        t.color(color)
-        t.begin_fill()
-        for i in range(3): # Draws the triangle to length param
-            t.fd(leng)
-            t.lt(120)
-        t.end_fill()
+        '''
+        Draw triangle of specified color and side length
+        '''
+        tur.color(color)
+        tur.begin_fill()
+        for ele in range(3): # Draws the triangle to length param
+            tur.fd(leng)
+            tur.lt(120)
+        tur.end_fill()
 
-    # Draw rectangle of specified color, height, width
+
     def draw_rect(color, width, height):
-        t.color(color)
-        t.begin_fill()
+        '''
+        Draw rectangle of specified color, height, width
+        '''
+        tur.color(color)
+        tur.begin_fill()
         counter = 0
-        while counter < 2: # Draws the rectangle
-            t.fd(width)
-            t.lt(90)
-            t.fd(height)
-            t.lt(90)
+        while counter < 2:
+            tur.fd(width)
+            tur.lt(90)
+            tur.fd(height)
+            tur.lt(90)
             counter += 1
-        t.end_fill()
+        tur.end_fill()
 
-    # Place the turtle in a specified spot, facing east
-    def placement(x, y=0):
-        t.up()
-        t.setx(x)
-        t.sety(y)
-        t.down()
-        t.heading()
+    def placement(x_cor, y_cor=0):
+        '''
+        Place the turtle in a specified spot, facing east
+        '''
+        tur.up()
+        tur.setx(x_cor)
+        tur.sety(y_cor)
+        tur.down()
+        tur.heading()
     
     def build_house(offset, house_l, house_h, window, door):
         placement(offset)
@@ -82,8 +93,8 @@ def main():
         draw_circle('yellow', window)           # Window 2
         placement(offset + (house_l * .75), house_h)
         draw_rect('red', door / 3, door * 3)    # Chimney
-        for i in range(0, 30, 10):
-            placement(offset + (house_l * .8 + i), house_h + i + door * 3.3)
+        for ele in range(0, 30, 10):
+            placement(offset + (house_l * .8 + ele), house_h + ele + door * 3.3)
             draw_circle('black', window)         # Smoke clouds
         
     def grow_tree(offset, base, trunk, branch, leaf):
