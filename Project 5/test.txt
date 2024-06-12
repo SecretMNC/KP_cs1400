@@ -1,0 +1,4 @@
+it was the coolest of times, it was the badest of times."|2
+"It was the best of times, it was the worst of times,|1
+"This line should be printed as the longest line on the output txt file."|4
+Lorem ipsum, this is a bunch of dummy text.|3
