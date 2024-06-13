@@ -2,11 +2,12 @@
 '''
 Project: Random walk
 Author: Kevin Pett
-Date: June , 2024
+Date: June 12, 2024
 
 '''
 import matplotlib.pyplot as plt
 import random as r
+
 ###### DO NOT change this function #####
 # Function to plot the random walk for each animal
 def plot_walk(animal):
@@ -29,54 +30,90 @@ def plot_walk(animal):
 
 def main():
     
-    animal = {'Chicken': 'Chuck',
-              'Dog': 'Daisy',
-              'Cat': 'Chester'}
-    
     def chicken_step():
-        chick_cors = [[0], [0]]
+        '''
+        1: Initialize a positional list of tuples, containing 2 ints each
+        2: For loop with 1000 iterations, starting at step 1
+        3: Randomly set a variable between ints 0 and 4
+        4: Grab the most recent coordinates from the latest tuple in chick_pos
+        5: Depending on random result, one cor is either added or subtracted
+        6: Return full list of tuples
+        '''
+        chick_pos = [(0, 0)]
         for step in range(1, 1001):
             direction = r.getrandbits(2)
-            if direction == 0:
-                chick_cors[0].append((chick_cors[0][step - 1]) - 1)
-                chick_cors[1].append((chick_cors[1][step - 1]))
-            elif direction == 1:
-                chick_cors[0].append((chick_cors[0][step - 1]) + 1)
-                chick_cors[1].append((chick_cors[1][step - 1]))
-            elif direction == 2:
-                chick_cors[0].append((chick_cors[0][step - 1]))
-                chick_cors[1].append((chick_cors[1][step - 1]) - 1)
-            elif direction == 3:
-                chick_cors[0].append((chick_cors[0][step - 1]))
-                chick_cors[1].append((chick_cors[1][step - 1]) + 1)
-        return chick_cors
+            x_cor, y_cor = chick_pos[-1]
+            if direction == 0:    # West
+                chick_pos.append((x_cor - 1, y_cor))
+            elif direction == 1:  # East
+                chick_pos.append((x_cor + 1, y_cor))
+            elif direction == 2:  # South
+                chick_pos.append((x_cor, y_cor - 1))
+            elif direction == 3:  # North
+                chick_pos.append((x_cor, y_cor + 1))
+        return chick_pos
     
     def dog_step():
-        dog_cors = [[0], [0]]
+        '''
+        1: Initialize a positional list of tuples, containing 2 ints each
+        2: For loop with 1000 iterations, starting at step 1
+        3: Randomly set a variable between 4 directions, north 50% weighted
+        4: Grab the most recent coordinates from the latest tuple in dog_pos
+        5: Depending on random result, one cor is either added or subtracted
+        6: Return full list of tuples
+        '''
+        dog_pos = [(0, 0)]
+        directions = ['n', 'e', 's', 'w']
         for step in range(1, 1001):
-            direction = r.getrandbits(2)
-            if direction == 0:
-                chick_cors[0].append((chick_cors[0][step - 1]) - 1)
-                chick_cors[1].append((chick_cors[1][step - 1]))
-            elif direction == 1:
-                chick_cors[0].append((chick_cors[0][step - 1]) + 1)
-                chick_cors[1].append((chick_cors[1][step - 1]))
-            elif direction == 2:
-                chick_cors[0].append((chick_cors[0][step - 1]))
-                chick_cors[1].append((chick_cors[1][step - 1]) - 1)
-            elif direction == 3:
-                chick_cors[0].append((chick_cors[0][step - 1]))
-                chick_cors[1].append((chick_cors[1][step - 1]) + 1)            
-        return dog_cors
+            direction = r.choices(directions, weights = [3, 1, 1, 1])[0]
+            x_cor, y_cor = dog_pos[-1]
+            if direction == 'w':
+                dog_pos.append((x_cor - 1, y_cor))
+            elif direction == 'e':
+                dog_pos.append((x_cor + 1, y_cor))
+            elif direction == 's':
+                dog_pos.append((x_cor, y_cor - 1))
+            elif direction == 'n':
+                dog_pos.append((x_cor, y_cor + 1))
+        return dog_pos
     
     def cat_step():
-        cat_xcor = [0]
+        '''
+        1: Initialize a positional list of tuples, containing 2 ints each
+        2: For loop with 1000 iterations, starting at step 1
+        3: Randomly decide to add or subtract the x_cor by one
+        3.1: Y coordinate never changes from 0, just append 0 every time
+        4: Return full list of tuples
+        '''
+        cat_pos = [(0, 0)]
         for step in range(1, 1001):
-            cat_x.append((cat_xcor[step - 1]) + r.choice(-1, 1))
-        return cat_xcor
+            x_cor = cat_pos[-1][0] + r.choice([-1, 1])
+            cat_pos.append((x_cor, 0))
+        return cat_pos
     
-    plt.plot([1, 2, -3, 4], [5, 10, 20, 40], '-ro')
-    plt.ylabel('some numbers')
+    chicken_pos = chicken_step()
+    dog_pos = dog_step()
+    cat_pos = cat_step()
+
+    animal = {'Chicken': 
+                {'name': 'Chuck',
+                 'color': 'blue',
+                 'marker': 'o',
+                 'positions': chicken_pos},
+              'Dog': 
+                {'name': 'Daisy',
+                 'color': 'red',
+                 'marker': 's',
+                 'positions': dog_pos},
+              'Cat': 
+                {'name': 'Chester',
+                 'color': 'green',
+                 'marker': '^',
+                 'positions': cat_pos}}
+
+    plot_walk(animal['Chicken'])
+    plot_walk(animal['Dog'])
+    plot_walk(animal['Cat'])
     plt.show()
     
 
